@@ -29,3 +29,15 @@ The system requires no visual input, enabling search in occluded or visually deg
 - PPO exploration strategy
 
 - Simulated multi-object environment
+
+# Dataset
+
+Dataset/
+   sphere/
+   cube/
+   cylinder/
+   cone/
+
+# Results
+
+The tactile classifier achieves good overall accuracy, especially on spheres, cubes, and cones, while cylinders remain more challenging due to less distinctive contact patterns. In multi-object search, the manual strategy performs very well on easier shapes, but struggles on ambiguous ones. PPO improves performance on harder cases but often continues probing even when confidence is already high, leading to unnecessary exploration. Overall, tactile perception quality strongly affects search performance, and improving stopping behavior could offer significant gains.
