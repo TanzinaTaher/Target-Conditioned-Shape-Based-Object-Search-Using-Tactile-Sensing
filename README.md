@@ -2,30 +2,30 @@
 
 This project explores tactile-only object search for robotic manipulation. Instead of vision, a robot uses pressure-map tactile images to identify an object among four shape categories (sphere, cube, cylinder, cone).
 
-#Summary
+# Summary
 
--Robot touches objects one by one
+- Robot touches objects one by one
 
--Extracts 2D tactile pressure maps
+- Extracts 2D tactile pressure maps
 
--Classifier (ConvNeXt-Tiny) predicts shape
+- Classifier (ConvNeXt-Tiny) predicts shape
 
--PPO reinforcement learning decides:
+- PPO reinforcement learning decides:
 
-  -keep probing
+  - keep probing
 
-  -switch objects
+  - switch objects
 
-  -stop if confident
+  - stop if confident
 
 The system requires no visual input, enabling search in occluded or visually degraded environments.
 
-#Features
+# Features
 
--Target-conditioned tactile search
+- Target-conditioned tactile search
 
--ConvNeXt-Tiny tactile classifier
+- ConvNeXt-Tiny tactile classifier
 
--PPO exploration strategy
+- PPO exploration strategy
 
--Simulated multi-object environment
+- Simulated multi-object environment
