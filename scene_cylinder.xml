@@ -1,0 +1,67 @@
+<mujoco model="finger_pad_scene_cylinder_final_clean">
+  <option timestep="0.002" gravity="0 0 0"/>
+
+  <!-- Simplest visual config: no reflections, matte lighting -->
+  <visual>
+    <quality shadowsize="0"/>
+    <map force="0"/>
+    <rgba haze="1 1 1 1"/>
+  </visual>
+
+  <asset>
+    <material name="finger_mat" rgba="0.55 0.65 0.9 1"/>
+    <material name="pad_mat"    rgba="0.1 1 0.1 1"/>
+    <material name="cyl_mat"    rgba="0.9 0.3 0.2 1"/>
+    <material name="plane_mat"  rgba="0.8 0.8 0.8 1"/> <!-- flat bright gray -->
+    <material name="wall_mat"   rgba="0.8 0.8 0.8 0"/> <!-- invisible -->
+  </asset>
+
+  <default>
+    <geom solimp="0.9 0.9 0.01" solref="0.005 1"
+          condim="3" friction="1 0.1 0.01"/>
+  </default>
+
+  <worldbody>
+    <!-- Simple diffuse lighting -->
+    <light name="fill1" pos="0.5 0.5 0.8" dir="-1 -1 -0.6" diffuse="1 1 1" specular="0.2 0.2 0.2"/>
+    <light name="fill2" pos="-0.5 0.4 0.6" dir="1 -1 -0.5" diffuse="0.9 0.9 0.9" specular="0.2 0.2 0.2"/>
+
+
+    <!-- ✅ finite box "floor" (NOT a plane!) -->
+    <geom name="floor" type="box" size="0.6 0.6 0.005"
+          pos="0 0 0" material="plane_mat"/>
+
+    <!-- Camera -->
+    <camera name="front" pos="0 0.35 0.12" euler="-1.57 0 0"/>
+
+    <!-- Finger -->
+    <body name="finger" pos="0 0 0">
+      <geom name="finger_base" type="box" size="0.02 0.02 0.05"
+            pos="0 0 0.05" material="finger_mat"/>
+      <geom name="finger_tip"  type="box" size="0.02 0.02 0.02"
+            pos="0.03 0 0.07" material="finger_mat"/>
+      <geom name="pad_geom"    type="box" size="0.007 0.015 0.015"
+            pos="0.055 0 0.07" material="pad_mat"/>
+      <site name="pad_site"    pos="0.055 0 0.07" size="0.006" rgba="0 1 0 1"/>
+    </body>
+
+    <!-- Cylinder object -->
+    <body name="cylinder" pos="0.09 0 0.07">
+      <freejoint/>
+      <geom name="cylinder_geom" type="cylinder"
+            size="0.02 0.025" pos="0 0 0"
+            material="cyl_mat" friction="1 0.1 0.01" mass="0.05"/>
+    </body>
+
+    <!-- Invisible box boundaries (only X free) -->
+    <geom type="box" pos="0.09 -0.03 0.07" size="0.05 0.001 0.05" material="wall_mat"/>
+    <geom type="box" pos="0.09  0.03 0.07" size="0.05 0.001 0.05" material="wall_mat"/>
+    <geom type="box" pos="0.09  0   0.12" size="0.05 0.03 0.001" material="wall_mat"/>
+    <geom type="box" pos="0.09  0   0.02" size="0.05 0.03 0.001" material="wall_mat"/>
+  </worldbody>
+
+  <sensor>
+    <force name="pad_force" site="pad_site"/>
+    <touch name="pad_touch" site="pad_site"/>
+  </sensor>
+</mujoco>

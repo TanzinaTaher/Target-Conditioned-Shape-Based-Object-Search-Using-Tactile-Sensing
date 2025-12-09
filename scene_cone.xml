@@ -1,0 +1,49 @@
+<mujoco model="finger_pad_scene_cone_clean">
+  <option timestep="0.002" gravity="0 0 0"/>
+  <visual>
+    <quality shadowsize="1024"/>
+    <map force="0"/>
+    <headlight diffuse="0.7 0.7 0.7" specular="0.3 0.3 0.3"/>
+  </visual>
+
+  <asset>
+    <material name="finger_mat" rgba="0.55 0.65 0.9 1"/>
+    <material name="pad_mat"    rgba="0.1 1 0.1 1"/>
+    <material name="cone_mat"   rgba="0.95 0.45 0.15 1"/>
+    <material name="plane_mat"  rgba="0.85 0.85 0.85 1"/>
+    <mesh name="cone_mesh" file="pyramid_fixed.stl" scale="1 1 1"/>
+  </asset>
+
+  <default>
+    <geom solimp="0.8 0.8 0.01" solref="0.005 1" condim="3" friction="1 0.1 0.01"/>
+  </default>
+
+  <worldbody>
+    <light name="fill1" pos="0.5 0.5 0.8" dir="-1 -1 -0.6" diffuse="1 1 1" specular="0.2 0.2 0.2"/>
+    <light name="fill2" pos="-0.5 0.4 0.6" dir="1 -1 -0.5" diffuse="0.9 0.9 0.9" specular="0.2 0.2 0.2"/>
+
+    <geom name="floor" type="plane" size="2 2 0.01" material="plane_mat"/>
+
+    <camera name="front" pos="0 0.35 0.12" euler="-1.57 0 0"/>
+
+    <body name="finger" pos="0 0 0">
+      <geom name="finger_base" type="box" size="0.02 0.02 0.05" pos="0 0 0.05" material="finger_mat"/>
+      <geom name="finger_tip"  type="box" size="0.02 0.02 0.02" pos="0.03 0 0.07" material="finger_mat"/>
+      <geom name="pad_geom"    type="box" size="0.007 0.015 0.015" pos="0.055 0 0.07" material="pad_mat"/>
+      <site name="pad_site" pos="0.055 0 0.07" size="0.006" rgba="0 1 0 1"/>
+    </body>
+
+    <body name="pyramid" pos="0.085 0 0.07">
+      <freejoint/>
+      <!-- rotate cone so its axis points toward +X (pad side) -->
+      <geom name="pyramid_geom" type="mesh" mesh="cone_mesh"
+            quat="0.7071 0 0.7071 0"
+            material="cone_mat" mass="0.05" friction="1 0.1 0.01"/>
+    </body>
+  </worldbody>
+
+  <sensor>
+    <force name="pad_force" site="pad_site"/>
+    <touch name="pad_touch" site="pad_site"/>
+  </sensor>
+</mujoco>
